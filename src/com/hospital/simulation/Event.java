@@ -33,6 +33,6 @@ public class Event {
             Generator.generatorEvent(eventData, currentTime, U);
         } else if (eventData.getEventType() == 4) {
             Exit.exitEvent(eventData, currentTime);
-        }
+        } 
     }
 }
