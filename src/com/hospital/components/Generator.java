@@ -18,5 +18,10 @@ public class Generator {
         nextEventData.setEventType(1);
         double ts = currentTime + Helper.randExp(U);
         Engine.schedule(ts, nextEventData);
+
+        // Schedule next arrival event
+        eventData.setEventType(4);
+        double arrivalTS = currentTime + Helper.randExp(U);
+        Engine.schedule(arrivalTS, eventData);
     }
 }
