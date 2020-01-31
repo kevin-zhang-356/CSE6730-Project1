@@ -1,5 +1,6 @@
 package com.hospital.simulation;
 
+import com.hospital.components.Exit;
 import com.hospital.components.Generator;
 
 public class Event {
@@ -30,6 +31,8 @@ public class Event {
     public void eventHandler(double currentTime, double U) {
         if (eventData.getEventType() == 1) {
             Generator.generatorEvent(eventData, currentTime, U);
+        } else if (eventData.getEventType() == 4) {
+            Exit.exitEvent(eventData, currentTime);
         }
     }
 }
