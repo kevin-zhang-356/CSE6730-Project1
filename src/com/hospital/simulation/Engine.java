@@ -17,7 +17,7 @@ public class Engine {
         }
     });
 
-    // Current time
+    // Current time variable
     private static double now = 0.0;
 
     // Remove function for fel
