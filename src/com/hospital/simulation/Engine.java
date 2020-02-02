@@ -41,7 +41,7 @@ public class Engine {
         fel.add(e);
     }
 
-    // Run simulation
+    // Run simulation method
     public static void runSim(double endTime, double U) {
         // Generate first event for patient
         EventData eventData = new EventData();
