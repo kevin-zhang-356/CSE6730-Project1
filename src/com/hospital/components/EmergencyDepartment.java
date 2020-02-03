@@ -10,7 +10,7 @@ import java.util.List;
 public class EmergencyDepartment {
 
     // Queue for Emergency Department waiting line。 To be implemented.
-    private static List<Patient> EDQueue = new ArrayList<>();
+    private static List<Patient> EDQueue = new ArrayList<Patient>();
 
     public static void EDEvent (EventData eventData, double currentTime, double U) {
         System.out.printf("Patient %d has been accepted into Emergency Department, current time: %f\n",

@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 public class Engine {
     // Future event list with modified comparator based on timestamp
-    private static PriorityQueue<Event> fel = new PriorityQueue<Event>(new Comparator<Event>(){
+    private static PriorityQueue<Event> fel = new PriorityQueue<Event>(10, new Comparator<Event>(){
         @Override
         public int compare(Event a, Event b) {
             if ((a.getTimestamp() - b.getTimestamp()) < 0)
