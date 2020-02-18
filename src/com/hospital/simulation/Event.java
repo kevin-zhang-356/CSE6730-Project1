@@ -33,16 +33,27 @@ public class Event {
 
     // Event handler method process events based on their types
     public void eventHandler(double currentTime, double U) {
+        int a = 1;
         if (eventData.getEventType() == 1) {
             Generator.generatorEvent(eventData, currentTime, U);
         } else if (eventData.getEventType() == 2) {
             EmergencyDepartment.EDEvent(eventData, currentTime, U);
         } else if (eventData.getEventType() == 3) {
-            InpatientBed.InpatientBedEvent(eventData, currentTime, U);
+            OperatingRoom.OREvent(eventData, currentTime);
         } else if (eventData.getEventType() == 4) {
-            /* To be implemented */
+            EmergencyDepartment.diagnosisExitEvent(eventData, currentTime, U);
         } else if (eventData.getEventType() == 5) {
+            InpatientBed.InpatientBedEvent(eventData, currentTime);
+        } else if (eventData.getEventType() == 6) {
+            InpatientBed.InpatientBedExitEvent(eventData, currentTime);
+        } else if (eventData.getEventType() == 7) {
+            OperatingRoom.urgentPostSurgeryEvent(eventData, currentTime);
+        } else if (eventData.getEventType() == 8) {
             Exit.exitEvent(eventData, currentTime);
+        } else if (eventData.getEventType() == 9) {
+            OperatingRoom.urgentPatientDischarge(eventData, currentTime);
+        } else if (eventData.getEventType() == 10) {
+            OperatingRoom.normalPostSurgeryEvent(eventData, currentTime);
         }
     }
 }
