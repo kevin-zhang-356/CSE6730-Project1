@@ -1,0 +1,10 @@
+0Average number of patients arrived to the hospital in an hour: 22
+1Average ratio of patients in need of Urgent Surgery for Patient Generator: 95
+2Average ratio of patients no need of admitted into hospital beds: 80
+3Number of rooms for Operating Rooms: 22
+4Average operation time for Operating Rooms: 6
+5Number of beds for Inpatient Beds: 400
+6Average time for surgery preparation for Inpatient Beds: 48
+7Average time before inpatient discharge after surgery for Inpatient Beds: 48
+8Number of rooms for Diagnosis Rooms: 5
+9Average process time for Diagnosis Rooms: 1

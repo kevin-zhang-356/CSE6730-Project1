@@ -6,11 +6,18 @@ import com.hospital.simulation.Helper;
 
 public class Generator {
     private static int patientNum = 0;
-    private static int ratio = 50;
+    private static double averageGenerateTime;
+    private static int ratio;
 
-    public static void generatorEvent (EventData eventData, double currentTime, double averageGenerateTime) {
-        if (patientNum > 10)
-            return;
+    public static void setAverageGenerateTime(double averageGenerate) {
+        averageGenerateTime = averageGenerate;
+    }
+
+    public static void setRatio(int ra) {
+        ratio = ra;
+    }
+
+    public static void generatorEvent (EventData eventData, double currentTime) {
         Patient p = new Patient(patientNum, currentTime, ratio);
         eventData.setPatient(p);
         System.out.printf("This is a generator event to generate patient %d, current time: %f\n",

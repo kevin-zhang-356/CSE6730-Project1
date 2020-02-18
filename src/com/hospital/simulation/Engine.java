@@ -42,7 +42,7 @@ public class Engine {
     }
 
     // Run simulation method
-    public static void runSim(double endTime, double U) {
+    public static void runSim(double endTime) {
         // Generate first event for patient
         EventData eventData = new EventData();
         eventData.setEventType(1);
@@ -58,7 +58,7 @@ public class Engine {
                 System.out.println("The simulation has ended!");
                 break;
             } else {
-                e.eventHandler(now, U);
+                e.eventHandler(now);
             }
         }
     }

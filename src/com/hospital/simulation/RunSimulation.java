@@ -1,7 +1,10 @@
 package com.hospital.simulation;
 
+import java.io.IOException;
+
 public class RunSimulation {
-    public static void main(String[] args) {
-        Engine.runSim(500, 5);
+    public static void main(String[] args) throws IOException {
+        FileIO.readInput();
+        Engine.runSim(500);
     }
 }

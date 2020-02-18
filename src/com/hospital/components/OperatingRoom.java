@@ -8,12 +8,21 @@ import com.hospital.simulation.Helper;
 import java.util.*;
 
 public class OperatingRoom {
-    private static int numOfRoom = 2;
-    private static double averageOperationTime = 5;
+    private static int numOfRoom;
+    private static double averageOperationTime;
     private static int occupiedRoom = 0;
 
     private static Map<Integer, List<double[]>> map = new HashMap<Integer, List<double[]>>();
-    private static int[] roomList = new int[numOfRoom];
+    private static int[] roomList;
+
+    public static void setNumOfRoom (int num) {
+        numOfRoom = num;
+        roomList = new int[numOfRoom];
+    }
+
+    public static void setAverageOperationTime (int time) {
+        averageOperationTime = time;
+    }
 
     public static void OREvent (EventData eventData, double currentTime) {
         if (eventData.getPatient().getSeverity() == 2) {
@@ -127,7 +136,6 @@ public class OperatingRoom {
 
     public static void scheduleSurgery(double currentTime, List<double[]> list,
                                            int room, EventData eventData, double operatingTime) {
-        System.out.println(currentTime);
         double[] startEndTime = new double[2];
         startEndTime[0] = currentTime;
         startEndTime[1] = currentTime + operatingTime;
@@ -186,9 +194,9 @@ public class OperatingRoom {
                 }
             }
         }
-        scheduleSurgery(Math.max(expectedTime, list.get(list.size() - 1)[1]), list, minRoom, eventData, operatingTime);
-        return new double[] {Math.max(expectedTime, list.get(list.size() - 1)[1]),
-                list.get(list.size() - 1)[1] + operatingTime};
+        double max = Math.max(expectedTime, list.get(list.size() - 1)[1]);
+        scheduleSurgery(max, list, minRoom, eventData, operatingTime);
+        return new double[] {max, max + operatingTime};
     }
 
 //    public static

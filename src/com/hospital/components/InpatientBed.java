@@ -10,10 +10,10 @@ import java.util.Queue;
 public class InpatientBed {
 
     private static Queue<Patient> BedQueue = new LinkedList<Patient>();
-    private static int numOfBed = 10;
+    private static int numOfBed;
     private static int occupiedBed = 0;
-    private static double averagePrepTime = 48;
-    private static double recoveryTime = 48;
+    private static double averagePrepTime;
+    private static double recoveryTime;
 
     public static boolean hasBed () {
         return occupiedBed < numOfBed;
@@ -21,6 +21,18 @@ public class InpatientBed {
 
     public static double getRecoveryTime() {
         return recoveryTime;
+    }
+
+    public static void setNumOfBed(int num) {
+        numOfBed = num;
+    }
+
+    public static void setAveragePrepTime(int time) {
+        averagePrepTime = time;
+    }
+
+    public static void setRecoveryTime(int time) {
+        recoveryTime = time;
     }
 
     public static void setIncreaseBed() {
@@ -39,6 +51,10 @@ public class InpatientBed {
             nextEventData.setPatient(p);
             double ts = currentTime;
             Engine.schedule(ts, nextEventData);
+            System.out.printf("Release the first patient in Bedqueue, patient %d, queue size: %d current time: %f\n",
+                    p.getPID(),
+                    BedQueue.size(),
+                    currentTime);
         }
     }
 

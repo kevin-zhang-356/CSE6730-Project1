@@ -9,16 +9,24 @@ import java.util.Queue;
 
 public class EmergencyDepartment {
 
-    // Queue for Emergency Department waiting line。 To be implemented.
+    // Queue for Emergency Department waiting line
     private static Queue<Patient> EDQueue = new LinkedList<Patient>();
-    private static int numOfDiagnosisRoom = 2;
-    private static int ratio = 90;
+    private static int numOfDiagnosisRoom;
+    private static int ratio;
+    private static int averageDiagnosisTime;
     private static int currentPatient = 0;
 
-//    public EmergencyDepartment(int numOfDiagnosisRoom, int ratio) {
-//        this.numOfDiagnosisRoom = numOfDiagnosisRoom;
-//        this.ratio = ratio;
-//    }
+    public static void setRatio (int ra) {
+        ratio = ra;
+    }
+
+    public static void setNumOfDiagnosisRoom(int room) {
+        numOfDiagnosisRoom = room;
+    }
+
+    public static void setAverageDiagnosisTime(int time) {
+        averageDiagnosisTime = time;
+    }
 
     private static int surgeryDetermination() {
         if ((int) (Math.random() * 101) > ratio)
@@ -27,7 +35,7 @@ public class EmergencyDepartment {
             return 1;   // 1 means go to inpatient bed
     }
 
-    public static void EDEvent (EventData eventData, double currentTime, double averageDiagnosisTime) {
+    public static void EDEvent (EventData eventData, double currentTime) {
         System.out.printf("Patient %d has arrived into Emergency Department, current time: %f\n",
                 eventData.getPatient().getPID(), currentTime);
 
@@ -46,7 +54,7 @@ public class EmergencyDepartment {
         }
     }
 
-    public static void diagnosisExitEvent (EventData eventData, double currentTime, double averageDiagnosisTime) {
+    public static void diagnosisExitEvent (EventData eventData, double currentTime) {
         System.out.printf("Patient %d has been released from diagnosis room, current time: %f\n",
                 eventData.getPatient().getPID(), currentTime);
 
