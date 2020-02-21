@@ -43,6 +43,7 @@ public class EmergencyDepartment {
             System.out.printf("Diagnosis room is currently full. Patient %d added to queue, current time: %f\n",
                     eventData.getPatient().getPID(), currentTime);
             EDQueue.add(eventData.getPatient());
+            eventData.getPatient().setEnterDQueueTime(currentTime);     // Record enter diagnosis room time
         } else {
             System.out.printf("Diagnosis room is available. Patient %d enters diagnosis room, current time: %f\n",
                     eventData.getPatient().getPID(), currentTime);
@@ -60,7 +61,9 @@ public class EmergencyDepartment {
 
         currentPatient--;
 
-        if (surgeryDetermination() == 1) {
+        eventData.getPatient().setSurgeryNeeded(surgeryDetermination());
+
+        if (eventData.getPatient().getSurgeryNeeded() == 1) {
             // Schedule next arrival event to inpatient bed
             eventData.setEventType(5);  // 5 : inpatient bed
             double arrivalTS = currentTime;
@@ -74,6 +77,7 @@ public class EmergencyDepartment {
 
         if (!EDQueue.isEmpty()) {
             Patient p = EDQueue.poll();
+            p.setExitDQueueTime(currentTime);       // Record exit diagnosis room time
             EventData nextEventData = new EventData();
             nextEventData.setEventType(4);  // 4 means generator event
             nextEventData.setPatient(p);
