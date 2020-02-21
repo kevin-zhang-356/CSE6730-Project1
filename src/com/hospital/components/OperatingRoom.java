@@ -1,19 +1,24 @@
 package com.hospital.components;
 
 import com.hospital.simulation.Engine;
-import com.hospital.simulation.Event;
 import com.hospital.simulation.EventData;
 import com.hospital.simulation.Helper;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class OperatingRoom {
     private static int numOfRoom;
     private static double averageOperationTime;
     private static int occupiedRoom = 0;
 
+    // Store surgery schedule in different operating rooms
     private static Map<Integer, List<double[]>> map = new HashMap<Integer, List<double[]>>();
-    private static int[] roomList;
+    private static int[] roomList;      // Store room availability at current time
 
     public static void setNumOfRoom (int num) {
         numOfRoom = num;
@@ -26,8 +31,9 @@ public class OperatingRoom {
 
     public static void OREvent (EventData eventData, double currentTime) {
         if (eventData.getPatient().getSeverity() == 2) {
+            // Urgent patient: No OR room or inpatient bed, transfer to other hospital, proceed to exit
             if (occupiedRoom >= numOfRoom || !InpatientBed.hasBed()) {
-                System.out.printf("There is no available OR, Patient %d will be transferred, current time: %f\n",
+                System.out.printf("There is no available OR or bed, Patient %d will be transferred, current time: %f\n",
                         eventData.getPatient().getPID(), currentTime);
 
                 // Schedule next arrival event to exit
@@ -35,7 +41,9 @@ public class OperatingRoom {
                 double arrivalTS = currentTime;
                 Engine.schedule(arrivalTS, eventData);
             } else {
+                // Urgent patient with possible available OR room and bed
                 double operatingTime = Helper.randExp(averageOperationTime);
+                // Find available OR room to schedule surgery
                 for (int i = 0; i < roomList.length; i++) {
                     if (roomList[i] == 0) {
                         List<double[]> list = map.get(i);
@@ -45,6 +53,7 @@ public class OperatingRoom {
                             occupiedRoom++;
                             InpatientBed.setIncreaseBed();
                             roomList[i] = 1;
+                            // Schedule to urgent post surgery event
                             eventData.setEventType(7);
                             double ts = currentTime + operatingTime;
                             Engine.schedule(ts, eventData);
@@ -55,6 +64,7 @@ public class OperatingRoom {
                                 occupiedRoom++;
                                 InpatientBed.setIncreaseBed();
                                 roomList[i] = 1;
+                                // Schedule to urgent post surgery event
                                 eventData.setEventType(7);
                                 double ts = currentTime + operatingTime;
                                 Engine.schedule(ts, eventData);
@@ -64,6 +74,7 @@ public class OperatingRoom {
                                 occupiedRoom++;
                                 InpatientBed.setIncreaseBed();
                                 roomList[i] = 1;
+                                // Schedule to urgent post surgery event
                                 eventData.setEventType(7);
                                 double ts = currentTime + operatingTime;
                                 Engine.schedule(ts, eventData);
@@ -72,8 +83,9 @@ public class OperatingRoom {
                         }
                     }
                     if (i == roomList.length - 1) {
-                        System.out.printf("There is no available OR, Patient %d will be transferred, current time: %f\n",
-                                eventData.getPatient().getPID(), currentTime);
+                        // No available OR room, transfer patient
+                        System.out.printf("There is no available OR, Patient %d will be transferred, current time: %f\n"
+                                , eventData.getPatient().getPID(), currentTime);
 
                         // Schedule next arrival event to exit
                         eventData.setEventType(8);  // 8 : exit
@@ -83,6 +95,7 @@ public class OperatingRoom {
                 }
             }
         } else {
+            // Normal patient enter OR room
             System.out.printf("There is an available OR, Patient %d will be operated, current time: %f\n",
                     eventData.getPatient().getPID(), currentTime);
             occupiedRoom++;
@@ -93,6 +106,7 @@ public class OperatingRoom {
     }
 
     public static void normalPostSurgeryEvent (EventData eventData, double currentTime) {
+        // Normal patient post surgery event
         occupiedRoom--;
         int operatingRoomNum = eventData.getPatient().getOperatingRoomNum();
         roomList[operatingRoomNum] = 0;
@@ -105,6 +119,7 @@ public class OperatingRoom {
     }
 
     public static void urgentPostSurgeryEvent (EventData eventData, double currentTime) {
+        // Urgent patient post surgery event
         occupiedRoom--;
         int operatingRoomNum = eventData.getPatient().getOperatingRoomNum();
         roomList[operatingRoomNum] = 0;
@@ -115,6 +130,7 @@ public class OperatingRoom {
             }
         }
 
+        // Sent to urgent patient discharge
         eventData.setEventType(9);  // 9: urgentPatientDischarge
         double ts = currentTime + InpatientBed.getRecoveryTime();
         Engine.schedule(ts, eventData);
@@ -131,8 +147,6 @@ public class OperatingRoom {
         System.out.printf("Urgent patient %d discharged, current time: %f\n",
                 eventData.getPatient().getPID(), currentTime);
     }
-
-//    public static int indexOfSurgery (List<double[]> list, )
 
     public static void scheduleSurgery(double currentTime, List<double[]> list,
                                            int room, EventData eventData, double operatingTime) {
@@ -160,10 +174,12 @@ public class OperatingRoom {
     }
 
     public static double[] findAvailableSurgeryTime (double expectedTime, EventData eventData) {
+        // Find operating room with smallest number of scheduled surgery to be the one to schedule
         int minSize = Integer.MAX_VALUE;
         int minRoom = -1;
         double operatingTime = Helper.randExp(averageOperationTime);
 
+        // If no surgery scheduled in this room, schedule the surgery. Or find the min surgery in all the rooms
         for (int i = 0; i < numOfRoom; i++) {
             List<double[]> list = map.get(i);
             if (list == null) {
@@ -177,6 +193,8 @@ public class OperatingRoom {
                 }
             }
         }
+
+        // Schedule the surgery based on the minRoom find before
         List<double[]> list = map.get(minRoom);
         if (list.size() == 0) {
             scheduleSurgery(expectedTime, list, minRoom, eventData, operatingTime);
@@ -198,6 +216,4 @@ public class OperatingRoom {
         scheduleSurgery(max, list, minRoom, eventData, operatingTime);
         return new double[] {max, max + operatingTime};
     }
-
-//    public static
 }

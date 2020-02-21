@@ -8,6 +8,14 @@ public class FileIO {
     private static String inputFileName = "input.txt";
     private static String outputFileName = "output.txt";
 
+    public static void setInputFileName(String input) {
+        inputFileName = input;
+    }
+
+    public static void setOutputFileName(String output) {
+        outputFileName = output;
+    }
+
     public static void readInput() throws IOException {
         int[] parameters = new int[10];
 

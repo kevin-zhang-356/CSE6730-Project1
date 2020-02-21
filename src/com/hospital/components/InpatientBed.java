@@ -45,6 +45,7 @@ public class InpatientBed {
 
     public static void informQueue (double currentTime) {
         if (!BedQueue.isEmpty()) {
+            // Release patient in queue to bed
             Patient p = BedQueue.poll();
             p.setExitBQueueTime(currentTime);       // Record bed queue exit time
             EventData nextEventData = new EventData();
@@ -62,11 +63,13 @@ public class InpatientBed {
     public static void InpatientBedEvent (EventData eventData, double currentTime) {
 
         if (occupiedBed >= numOfBed) {
+            // Bed is currently full
             System.out.printf("Inpatient bed is currently full. Patient %d added to queue, current time: %f\n",
                     eventData.getPatient().getPID(), currentTime);
             BedQueue.add(eventData.getPatient());
             eventData.getPatient().setEnterBQueueTime(currentTime);         // Record bed queue enter time
         } else {
+            // Bed is available
             System.out.printf("Inpatient Bed is available. Patient %d admitted, current time: %f\n",
                     eventData.getPatient().getPID(), currentTime);
             eventData.getPatient().setEnterInpatientBedTime(currentTime);       // Record enter inpatient bed time

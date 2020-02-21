@@ -30,9 +30,9 @@ public class EmergencyDepartment {
 
     private static int surgeryDetermination() {
         if ((int) (Math.random() * 101) > ratio)
-            return 2;   // 2 means to exit
+            return 2;   // 2: Surgery not needed, go to exit
         else
-            return 1;   // 1 means go to inpatient bed
+            return 1;   // 1: Surgery needed, go to inpatient bed
     }
 
     public static void EDEvent (EventData eventData, double currentTime) {
@@ -40,11 +40,13 @@ public class EmergencyDepartment {
                 eventData.getPatient().getPID(), currentTime);
 
         if (currentPatient >= numOfDiagnosisRoom) {
+            // No diagnosis room available, add to queue
             System.out.printf("Diagnosis room is currently full. Patient %d added to queue, current time: %f\n",
                     eventData.getPatient().getPID(), currentTime);
             EDQueue.add(eventData.getPatient());
             eventData.getPatient().setEnterDQueueTime(currentTime);     // Record enter diagnosis room time
         } else {
+            // Diagnosis room is available
             System.out.printf("Diagnosis room is available. Patient %d enters diagnosis room, current time: %f\n",
                     eventData.getPatient().getPID(), currentTime);
             currentPatient++;
@@ -75,6 +77,7 @@ public class EmergencyDepartment {
             Engine.schedule(arrivalTS, eventData);
         }
 
+        // Pop next patient in diagnosis room queue
         if (!EDQueue.isEmpty()) {
             Patient p = EDQueue.poll();
             p.setExitDQueueTime(currentTime);       // Record exit diagnosis room time

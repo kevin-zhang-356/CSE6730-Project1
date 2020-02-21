@@ -83,7 +83,6 @@ public class Exit {
         Patient p = eventData.getPatient();
         p.setExitSystemTime(currentTime);
 
-        /* Statistics to be calculated */
         // Remain in system time
         if (!(p.getSeverity() == 2 && p.getSurgeryStartTime() == -1)) {
             double remainSystemTime = p.getExitSystemTime() - p.getEnterSystemTime();
