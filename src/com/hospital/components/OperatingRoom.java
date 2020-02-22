@@ -179,7 +179,7 @@ public class OperatingRoom {
         int minRoom = -1;
         double operatingTime = Helper.randExp(averageOperationTime);
 
-        // If no surgery scheduled in this room, schedule the surgery. Or find the min surgery in all the rooms
+        // If no surgery scheduled in this room, schedule the surgery. Or find the min surgery in all the rooms.
         for (int i = 0; i < numOfRoom; i++) {
             List<double[]> list = map.get(i);
             if (list == null) {
