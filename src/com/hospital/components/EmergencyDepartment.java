@@ -82,7 +82,7 @@ public class EmergencyDepartment {
             Patient p = EDQueue.poll();
             p.setExitDQueueTime(currentTime);       // Record exit diagnosis room time
             EventData nextEventData = new EventData();
-            nextEventData.setEventType(4);  // 4 means generator event
+            nextEventData.setEventType(4);
             nextEventData.setPatient(p);
             currentPatient++;
             double ts = currentTime + Helper.randExp(averageDiagnosisTime);

@@ -6,5 +6,5 @@
 5Number of beds for Inpatient Beds: 400
 6Average time for surgery preparation for Inpatient Beds: 48
 7Average time before inpatient discharge after surgery for Inpatient Beds: 48
-8Number of rooms for Diagnosis Rooms: 5
+8Number of rooms for Diagnosis Rooms: 21
 9Average process time for Diagnosis Rooms: 1

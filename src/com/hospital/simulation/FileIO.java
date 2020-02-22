@@ -48,6 +48,12 @@ public class FileIO {
 
         br.printf("For total system remain time, Max: %f, Min: %f, Average: %f\n", Exit.getMaxSystemTime(),
                 Exit.getMinSystemTime(), Exit.getAverageSystemTime());
+        br.printf("For surgery needed patient system remain time, Max: %f, Min: %f, Average: %f\n",
+                Exit.getMaxSurgeryNeededSystemTime(),
+                Exit.getMinSurgeryNeededSystemTime(), Exit.getAverageSurgeryNeededSystemTime());
+        br.printf("For surgery not needed patient system remain time, Max: %f, Min: %f, Average: %f\n",
+                Exit.getMaxSurgeryNotNeededSystemTime(),
+                Exit.getMinSurgeryNotNeededSystemTime(), Exit.getAverageSurgeryNotNeededSystemTime());
         br.printf("For diagnosis room queue wait time, Max: %f, Min: %f, Average: %f\n",
                 Exit.getMaxDiagnosisRoomWaitTime(),
                 Exit.getMinDiagnosisRoomWaitTime(), Exit.getAverageDiagnosisRoomWaitTime());
